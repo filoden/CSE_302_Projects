@@ -171,6 +171,53 @@ bool BST::TravEmpty() {
   return TravQueue->IsEmpty();	
 }
 
+int BST::GetHeight() { // returns the maximum length of any path from the root to a leaf
+  //std::cout<<"Calculating Height..."<<std::endl;
+  return Leaves(root);
+}
+
+int BST::Leaves(TNode* curNode){
+  //std::cout<<"At Node";
+  if (curNode == NULL)
+    return -1;
+  else{
+    if (curNode->left == 0 && curNode->right == 0)
+      return 0;
+    else {
+      return max(Leaves(curNode->left), Leaves(curNode->right)) + 1;
+    }
+  }
+}
+
+void BST::SplitBalance(){
+  BST::ResetTree(IN_ORDER);
+  int sortedBSTitems[GetLength()];
+  int index = 0;
+  while (TravEmpty() == false){
+    int item = GetNextItem();
+    sortedBSTitems[index] = item;
+    index++;
+  }
+  BST::MakeEmpty();
+  BST::putInOrder(sortedBSTitems, 0, index-1);  
+}
+
+void BST::putInOrder(int sortedArray[], int front, int rear){
+  int midpoint = (front + rear) / 2;
+  if (front > rear)
+    return;
+  else if (front == rear){
+    PutItem(sortedArray[midpoint]);
+    return;
+  }
+  else {
+    PutItem(sortedArray[midpoint]);
+    putInOrder(sortedArray, front, midpoint - 1);
+    putInOrder(sortedArray, midpoint + 1, rear);
+    return;
+  }
+}
+
 void BST::PreNodes(TNode* curNode) {    
   if (curNode!=NULL) {
     TravQueue->Enqueue(curNode->item);

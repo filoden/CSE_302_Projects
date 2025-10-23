@@ -29,6 +29,9 @@ class BST {
   void ResetTree(OrderType order);
   int GetNextItem();
   bool TravEmpty();
+  int GetHeight();
+  void SplitBalance();
+  void putInOrder(int sortedArray[], int front, int rear);
 
   
   private:
@@ -44,6 +47,7 @@ class BST {
   void PreNodes(TNode* curNode);
   void InNodes(TNode* curNode);
   void PostNodes(TNode* curNode);
+  int Leaves(TNode* curNode);
   
   TNode *root;
   CLQueue *TravQueue;
